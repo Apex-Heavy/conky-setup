@@ -61,17 +61,17 @@ conky.config = {
 	--gap_x = -1910,
 	gap_x = 15,									-- pixels between right or left border
 	gap_y = 0,									-- pixels between bottom or left border
-	minimum_height = 600,						-- minimum height of window
+	minimum_height = 515,						-- minimum height of window
 	minimum_width = 300,						-- minimum height of window
-	maximum_width = 300,						-- maximum height of window
+	maximum_width = 250,						-- maximum height of window
 
 	--Graphical
 
 	border_inner_margin = 10, 					-- margin between border and text
 	border_outer_margin = 5, 					-- margin between border and edge of window
 	border_width = 0, 							-- border width in pixels
-	default_bar_width = 80,					-- default is 0 - full width
-	default_bar_height = 10,					-- default is 6
+	default_bar_width = 80,					    -- default is 0 - full width
+	default_bar_height = 12,					-- default is 6
 	default_gauge_height = 25,					-- default is 25
 	default_gauge_width =40,					-- default is 40
 	default_graph_height = 40,					-- default is 25
@@ -88,7 +88,7 @@ conky.config = {
 
 	extra_newline = false,						-- extra newline at the end - for asesome's wiboxes
 	format_human_readable = true,				-- KiB, MiB rather then number of bytes
-	font = 'Roboto Mono:size=10',  				-- font for complete conky unless in code defined
+	font = 'Roboto Mono:size=8',  				-- font for complete conky unless in code defined
 	max_text_width = 0,							-- 0 will make sure line does not get broken if width too smal
 	max_user_text = 16384,						-- max text in conky default 16384
 	override_utf8_locale = true,				-- force UTF8 requires xft
@@ -103,7 +103,7 @@ conky.config = {
 	--Windows
 
 	own_window = true,							-- create your own window to draw
-	own_window_argb_value = 100,			    -- real transparency - composite manager required 0-255
+	own_window_argb_value = 200,			    -- real transparency - composite manager required 0-255
 	own_window_argb_visual = true,				-- use ARGB - composite manager required
 	own_window_colour = '#000000',				-- set colour if own_window_transparent no
 	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',  -- if own_window true - just hints - own_window_type sets it
@@ -116,10 +116,10 @@ conky.config = {
 
 	default_color = '#D9DDE2',  				-- default color and border color
 	color1 = '#FF0000',
-	color2 = '#597AA1',
+	color2 = '#99b1cf',                         -- #597AA1
 	color3 = '#cccccc',
 	color4 = '#D9BC83',
-	color5 = '#00BFFF',
+	color5 = '#00BFFF',                         -- #00BFFF
 	color6 = '#FFFFFF',
 
 	--Signal Colours
@@ -133,24 +133,25 @@ conky.config = {
 };
 
 conky.text = [[
-${color6}${voffset 4}${font GE Inspira:size=36}${alignc}${time %l}:${time %M} ${time %p}${font}${color}
-${color6}${voffset 4}${font GE Inspira:size=12}${alignc}${time %A} ${time %B} ${time %e}, ${time %Y}${font}${color}
+#${color6}${voffset 4}${font GE Inspira:size=36}${alignc}${time %l}:${time %M} ${time %p}${font}${color}
+#${color6}${voffset 4}${font GE Inspira:size=12}${alignc}${time %A} ${time %B} ${time %e}, ${time %Y}${font}${color}
 
 ${color5}${font Roboto:size=10}${voffset 2}S Y S T E M   ${hr 2}${font}${color}
 ${color2}${voffset 8}Hostname:${color} ${alignr}${nodename}
-${color2}Distro:${color}${alignr}$sysname $kernel ${alignr}${execi 6000 lsb_release -a | grep 'Release'|awk {'print $2""$3""$4""$5'}}
+#${color2}Distro:${color}${alignr}$sysname $kernel ${alignr}${execi 6000 lsb_release -a | grep 'Release'|awk {'print $2""$3""$4""$5'}}
+${color2}Distro:${color}${alignr}$sysname ${alignr}${execi 6000 lsb_release -a | grep 'Description'|awk {'print $3, $4, $5'}}
 ${color2}Kernel:${color}${alignr}${exec uname} ${exec uname -r}
 #Nvidia: ${alignr}${execp  nvidia-smi --query-supported-clocks=gpu_name --format=csv,noheader}
 #Nvidia Driver: ${alignr}${execi 60000 nvidia-smi | grep "Driver Version"| awk {'print $3'}}
 ${color2}Uptime:${color} ${alignr}${uptime}
 ${color5}${font Roboto:size=10}P R O C E S S O R S  ${hr 2}${font}${color}
 ${color2}CPU Freq:${color} $alignr${freq}MHz
-${color2}CPU Temp:${color} $alignr${execi 10 sensors | grep 'Core 0' | awk {'print $3'}}
+#${color2}CPU Temp:${color} $alignr${execi 2 sensors | grep 'Core_0' | awk {'print $3'}}
 ${color2}History:${color} ${alignr}${cpugraph 8,100}
+${color2}${offset 30}CPU Core 0:${color} ${alignr}${offset -10}${cpu cpu0}%${alignr}${cpubar cpu0}
 ${color2}${offset 30}CPU Core 1:${color} ${alignr}${offset -10}${cpu cpu1}%${alignr}${cpubar cpu1}
 ${color2}${offset 30}CPU Core 2:${color} ${alignr}${offset -10}${cpu cpu2}%${alignr}${cpubar cpu2}
 ${color2}${offset 30}CPU Core 3:${color} ${alignr}${offset -10}${cpu cpu3}%${alignr}${cpubar cpu3}
-${color2}${offset 30}CPU Core 4:${color} ${alignr}${offset -10}${cpu cpu4}%${alignr}${cpubar cpu4}
 ${color2}Top Processes${goto 222}cpu%${goto 274}mem%${color}
 ${voffset 4}     1  -  ${top name 1}${alignr}${goto 170} ${goto 222}${top cpu 1} ${goto 274}${top mem 1}
      2  -  ${top name 2}${alignr} ${goto 222}${top cpu 2} ${goto 274}${top mem 2}
@@ -167,7 +168,7 @@ ${voffset 4}     1  -  ${top_mem name 1}${alignr}${goto 170} ${goto 222}${top_me
      4  -  ${top_mem name 4}${alignr}${goto 170} ${goto 222}${top_mem cpu 4} ${goto 274}${top_mem mem 4}
      5  -  ${top_mem name 5}${alignr}${goto 170} ${goto 222}${top_mem cpu 5} ${goto 274}${top_mem mem 5}
 ${color5}${font Roboto:size=10}D R I V E S   ${hr 2}${font}${color}
-${offset 30}${color2}Root  -  SSD:${color} ${alignr}${offset -10}${fs_used /} / ${fs_size /}${alignr}${fs_bar}
+${offset 30}${color2}Root:${color} ${alignr}${offset -10}${fs_used /} / ${fs_size /}${alignr}${fs_bar}
 ${offset 30}${color2}I/O Read:${color} ${alignr}${offset -10}${diskio_read /dev/sda6}${alignr}${diskiograph_read sda6 8,100}
 ${offset 30}${color2}I/O Write:${color} ${alignr}${offset -10}${diskio_write /dev/sda6}${alignr}${diskiograph_write sda6 8,100}
 
